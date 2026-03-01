@@ -15,14 +15,16 @@ class Library:
         if not user.can_borrow():
             raise Exception("Ya tienes tres libros.")
         
+        loan = Loan(user_id,book_isbn)
         book.available_copies -= 1
-        user.add_loan(book_isbn)
-        self.loans.append(Loan(user_id,book_isbn))
+        user.add_loan(loan)
+        self.loans.append(loan)
             
     def return_book(self,user_id,book_isbn):
         loan = self.find_loan(user_id,book_isbn)
         self.loans.remove(loan)
         self.users[user_id].active_loans.remove(loan)
+        self.books[book_isbn].available_copies += 1
         
     def find_loan(self,user_id,book_isbn):
         index = 0
@@ -74,8 +76,8 @@ class User:
     def can_borrow(self):
         return len(self.active_loans) < 4
 
-    def add_loan(self,book_isbn):
-        self.active_loans.append(Loan(self.user_id,book_isbn))
+    def add_loan(self,loan):
+        self.active_loans.append(loan)
 
     def remove_loan(self,loan):
         self.active_loans.remove(loan)
