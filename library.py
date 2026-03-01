@@ -74,7 +74,7 @@ class User:
         self.active_loans = []
 
     def can_borrow(self):
-        return len(self.active_loans) < 4
+        return len(self.active_loans) < 3
 
     def add_loan(self,loan):
         self.active_loans.append(loan)
@@ -87,3 +87,5 @@ class Loan:
     def __init__(self,user_id,book_isbn):
         self.user_id = user_id
         self.book_isbn = book_isbn
+
+
